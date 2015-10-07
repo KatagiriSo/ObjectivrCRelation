@@ -4,7 +4,7 @@ def getFileList(dir)
     filelist = Dir::entries(dir)
 end
 
-basePath = "./MSPL/"
+basePath = "./"
 filelist = getFileList(basePath)
 
 #p filelist
@@ -37,15 +37,15 @@ def getImport(text)
         line.chomp!
         if /import.*<(.*)>/ =~ line
             #p line
-            
+
             c = omitExt($1)
             #ret.push(c)
         end
         if /import.*"(.*)"/ =~line
-            
+
             #p line
             c = omitExt($1)
-            
+
             ret.push(c)
 
         end
@@ -60,9 +60,9 @@ print("digraph sample {\n")
 hash = {}
 
 filelist.each{|file|
-    
+
     filename = omitExt(file)
-    
+
     r = getImport(getFileString(basePath + file))
 
 # mにかかれているhを削除。
@@ -73,10 +73,10 @@ filelist.each{|file|
     end
 
     hash[filename] = r
-    
-    
-    
-    
+
+
+
+
 }
 
 
@@ -85,7 +85,7 @@ filelist.each{|file|
     filename = omitExt(file)
 
         hash[filename].each{|file2|
-            
+
         print("\""+filename +"\""+ "->" +  "\""+file2 +"\""+";\n")
     }
 }
@@ -93,8 +93,3 @@ filelist.each{|file|
 print("}\n")
 
 # dot -Tgif sample1.dot -o sample1.gif
-
-
-
-
-
