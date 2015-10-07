@@ -1,11 +1,34 @@
 #require './filelist'
 
+
 def getFileList(dir)
-    filelist = Dir::entries(dir)
+    filelist = Dir.glob dir + "**/*"
+    #filelist = Dir::entries(dir)
+    #p filelist
+    ret = []
+    filelist.each{|f|
+
+      if f == "."
+        next
+      end
+      if f == ".."
+        next
+      end
+
+      #p File.extname(f)
+      if File.extname(f) == ".h"
+        ret.push(f)
+        next
+    elsif File.extname(f) == ".m"
+        ret.push(f)
+       next
+     end
+    }
+    return ret
 end
 
-basePath = "./"
-filelist = getFileList(basePath)
+
+
 
 #p filelist
 
@@ -52,6 +75,12 @@ def getImport(text)
     }
     return ret
 end
+
+basePath = "./"
+if ARGV[0] != nil
+  basePath = ARGV[0]
+end
+filelist = getFileList(basePath)
 
 
 print("digraph sample {\n")
